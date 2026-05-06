@@ -1,0 +1,390 @@
+use schemars::JsonSchema;
+use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
+
+// ─── YAML Config Types ──────────────────────────────────────────
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct Pool {
+    pub id: String,
+    pub name: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub description: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub is_active: Option<bool>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct PoolsFile {
+    pub pools: Vec<Pool>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct SourceParserConfig {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub list_url: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub selectors: Option<Selectors>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct Selectors {
+    pub item: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub title: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub link: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub date: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub desc: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct RateLimit {
+    pub interval_seconds: u64,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub batch_size: Option<u32>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct Source {
+    pub id: String,
+    pub name: String,
+    #[serde(rename = "type")]
+    pub source_type: String,
+    pub url: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub headers: Option<HashMap<String, String>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub parser: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub parser_config: Option<SourceParserConfig>,
+    #[serde(default)]
+    pub pools: Vec<String>,
+    #[serde(default)]
+    pub countries: Vec<String>,
+    #[serde(default)]
+    pub cities: Vec<String>,
+    #[serde(default)]
+    pub domains: Vec<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub is_active: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub platform: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub tier: Option<u32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub rate_limit: Option<RateLimit>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub source_category: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct SourcesFile {
+    pub sources: Vec<Source>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct HttpSettings {
+    #[serde(default = "default_user_agent")]
+    pub user_agent: String,
+    #[serde(default = "default_timeout")]
+    pub timeout_ms: u64,
+    #[serde(default = "default_retries")]
+    pub retries: u32,
+    #[serde(default = "default_backoff_base")]
+    pub backoff_base_ms: u64,
+    #[serde(default = "default_backoff_factor")]
+    pub backoff_factor: f64,
+    #[serde(default = "default_concurrency")]
+    pub concurrency: u32,
+    #[serde(default = "default_per_host")]
+    pub per_host: u32,
+}
+
+fn default_user_agent() -> String {
+    "IGS-MCP-Rust/0.1".to_string()
+}
+fn default_timeout() -> u64 {
+    15000
+}
+fn default_retries() -> u32 {
+    2
+}
+fn default_backoff_base() -> u64 {
+    500
+}
+fn default_backoff_factor() -> f64 {
+    2.0
+}
+fn default_concurrency() -> u32 {
+    6
+}
+fn default_per_host() -> u32 {
+    2
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct CacheSettings {
+    #[serde(default = "default_cache_enabled")]
+    pub enabled: bool,
+    #[serde(default = "default_cache_dir")]
+    pub dir: String,
+    #[serde(default = "default_honor_etags")]
+    pub honor_etags: bool,
+    #[serde(default = "default_ttl_ms")]
+    pub ttl_ms: u64,
+    #[serde(default = "default_query_ttl_ms")]
+    pub query_ttl_ms: u64,
+    #[serde(default = "default_max_items")]
+    pub max_items_per_source: u32,
+}
+
+fn default_cache_enabled() -> bool {
+    true
+}
+fn default_cache_dir() -> String {
+    "cache".to_string()
+}
+fn default_honor_etags() -> bool {
+    true
+}
+fn default_ttl_ms() -> u64 {
+    1_800_000
+}
+fn default_query_ttl_ms() -> u64 {
+    600_000
+}
+fn default_max_items() -> u32 {
+    300
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct TimeSettings {
+    #[serde(default = "default_timezone")]
+    pub timezone: String,
+}
+
+fn default_timezone() -> String {
+    "local".to_string()
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct ProviderSettings {
+    #[serde(default)]
+    pub enabled: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub api_key: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct TavilySettings {
+    #[serde(default)]
+    pub enabled: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub api_key: Option<String>,
+    #[serde(default = "default_tavily_depth")]
+    pub search_depth: String,
+    #[serde(default = "default_tavily_topic")]
+    pub default_topic: String,
+    #[serde(default = "default_timeout")]
+    pub timeout_ms: u64,
+}
+
+fn default_tavily_depth() -> String {
+    "basic".to_string()
+}
+fn default_tavily_topic() -> String {
+    "general".to_string()
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct FirecrawlSettings {
+    #[serde(default)]
+    pub enabled: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub api_key: Option<String>,
+    #[serde(default = "default_timeout")]
+    pub timeout_ms: u64,
+    #[serde(default = "default_formats")]
+    pub default_formats: Vec<String>,
+}
+
+fn default_formats() -> Vec<String> {
+    vec!["markdown".to_string()]
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct Settings {
+    pub http: HttpSettings,
+    pub cache: CacheSettings,
+    pub time: TimeSettings,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub tavily: Option<TavilySettings>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub firecrawl: Option<FirecrawlSettings>,
+}
+
+// ─── News Types ─────────────────────────────────────────────────
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct NewsItem {
+    pub id: String,
+    pub title: String,
+    pub link: String,
+    pub pub_date: String,
+    pub source_name: String,
+    pub pool_id: String,
+    pub content_snippet: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub author: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub media_url: Option<String>,
+}
+
+// ─── Cache Entry Types ──────────────────────────────────────────
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct FeedCacheEntry {
+    pub url: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub etag: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub last_modified: Option<String>,
+    pub fetched_at: u64,
+    pub items: Vec<NewsItem>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct QueryCacheEntry<T: Clone> {
+    pub meta: QueryCacheMeta,
+    pub data: T,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct QueryCacheMeta {
+    pub key: String,
+    pub at: u64,
+    pub deps: std::collections::HashMap<String, u64>,
+}
+
+// ─── Research Types ─────────────────────────────────────────────
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct PaperAuthor {
+    pub name: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct ResearchPaper {
+    pub id: String,
+    pub title: String,
+    pub authors: Vec<String>,
+    pub abstract_text: String,
+    pub year: Option<i32>,
+    pub citation_count: Option<i32>,
+    pub pdf_url: Option<String>,
+    pub source: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub link: Option<String>,
+}
+
+// ─── Entity Types ───────────────────────────────────────────────
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct EntityInfo {
+    pub name: String,
+    #[serde(rename = "type")]
+    pub entity_type: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub mentions: Option<u32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub confidence: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub normalized_id: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct DomainInfo {
+    pub domain: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub score: Option<f64>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct EnrichedArticle {
+    pub id: String,
+    pub title: String,
+    pub link: String,
+    pub pub_date: String,
+    pub source_name: String,
+    pub pool_id: String,
+    pub content_snippet: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub author: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub topics: Option<Vec<String>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub entities: Option<Vec<EntityInfo>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub sentiment: Option<SentimentResult>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub summary: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub domains: Option<Vec<DomainInfo>>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct SentimentResult {
+    pub score: f64,
+    pub comparative: f64,
+    pub label: String,
+}
+
+// ─── Insight Types ──────────────────────────────────────────────
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct ArticleInsight {
+    pub id: String,
+    pub title: String,
+    pub pub_date: String,
+    pub source_name: String,
+    pub domains: Vec<DomainInfo>,
+    pub entities: Vec<EntityInfo>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct EntityConnection {
+    pub entity: String,
+    pub entity_type: String,
+    pub domains: Vec<DomainConnection>,
+    pub connection_strength: f64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct DomainConnection {
+    pub domain: String,
+    pub article_ids: Vec<String>,
+    pub article_titles: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct TrendingEntity {
+    pub entity: String,
+    #[serde(rename = "type")]
+    pub entity_type: String,
+    pub current_mentions: u32,
+    pub previous_mentions: u32,
+    pub growth: f64,
+    pub normalized_growth: f64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct InsightStats {
+    pub total_articles: usize,
+    pub total_entities: usize,
+    pub total_domains: usize,
+    pub avg_entities_per_article: f64,
+    pub avg_domains_per_article: f64,
+}

@@ -1,0 +1,73 @@
+pools:
+- id: GLOBAL_BREAKING
+  name: Global Breaking
+  description: Fast, low-spin event detection
+  is_active: true
+- id: GLOBAL_GEOECON
+  name: Global Geopolitics & Geoeconomics
+  description: Strategic competition, sanctions, energy, shipping, sovereign risk
+  is_active: true
+- id: GLOBAL_LAW_REG
+  name: Global Law & Regulation
+  description: Sanctions, courts, regulatory actions, treaties
+  is_active: true
+- id: GLOBAL_TECH_CYBER
+  name: Global Tech & Cyber
+  description: Emerging tech, cyber incidents, standards, defence tech
+  is_active: true
+- id: GLOBAL_ENV_HEALTH
+  name: Global Environment & Health
+  description: Disease, climate, biodiversity, environmental disruption
+  is_active: false
+- id: GLOBAL_CULT_SOC
+  name: Global Culture & Society
+  description: Ideology, social change, civilisational narratives
+  is_active: true
+- id: INDIA_NATIONAL_BASE
+  name: India National Baseline
+  description: Sober daily reporting with national breadth
+  is_active: true
+- id: INDIA_WATCHDOG
+  name: India Watchdog & Investigative
+  description: Investigations, accountability, rights, media criticism
+  is_active: true
+- id: INDIA_FACTCHECK_DATA
+  name: India Fact-Check & Data
+  description: Verification, misinformation checks, public-interest data
+  is_active: true
+- id: INDIA_BUSINESS_REG
+  name: India Business & Regulation
+  description: Markets, filings, exchange actions, monetary/regulatory signals
+  is_active: true
+- id: INDIA_REGION
+  name: India Regional
+  description: State-level and zonal reporting
+  is_active: true
+- id: INDIA_CITIES
+  name: India Cities
+  description: City-level feeds (Delhi, Mumbai, Bengaluru, etc.)
+  is_active: true
+- id: GLOBAL_COUNTRIES
+  name: Global Countries
+  description: Country-specific international news feeds (Guardian, France24, etc.)
+  is_active: true
+- id: GLOBAL_CITIES
+  name: Global Cities
+  description: City-specific feeds where available; fallback to curated or GN feeds
+  is_active: true
+- id: GLOBAL_HEALTH
+  name: Global Health
+  description: Pandemics, disease outbreaks, health policy, medical research, biosecurity
+  is_active: true
+- id: GLOBAL_ENVIRONMENT
+  name: Global Environment & Climate
+  description: Climate change, biodiversity, energy transition, environmental policy, natural disasters
+  is_active: true
+- id: GLOBAL_SCIENCE
+  name: Global Science & Discovery
+  description: Scientific research, space exploration, physics, biology, chemistry, discovery
+  is_active: true
+- id: GLOBAL_DEFENSE_SECURITY
+  name: Global Defense & Security
+  description: Military, defense, aerospace, security policy, strategic forces, arms control
+  is_active: true

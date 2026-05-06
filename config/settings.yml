@@ -1,0 +1,36 @@
+http:
+  userAgent: IGS-MCP/0.1 (+https://example.local)
+  timeoutMs: 15000
+  retries: 2
+  backoffBaseMs: 500
+  backoffFactor: 2.0
+  concurrency: 6
+  perHost: 2
+
+cache:
+  enabled: true
+  dir: cache
+  honorEtags: true
+  ttlMs: 1800000   # 30 minutes TTL fallback when no validators
+  queryTtlMs: 600000  # 10 minutes query cache for identical timeframe requests
+  maxItemsPerSource: 300
+
+time:
+  timezone: local  # use system local timezone for input/output
+
+tavily:
+  enabled: false  # Set to true and provide API key to enable realtime web search
+  apiKey: ${TAVILY_API_KEY}  # Get API key from https://tavily.com
+  searchDepth: basic  # basic, advanced, fast, or ultra-fast
+  defaultTopic: general  # general, news, or finance
+  timeoutMs: 30000
+
+firecrawl:
+  enabled: false  # Set to true and provide API key to enable web scraping/crawling
+  apiKey: ${FIRECRAWL_API_KEY}  # Get API key from https://firecrawl.dev
+  timeoutMs: 60000
+  defaultFormats:
+    - markdown
+    - html
+    - screenshot
+    - links

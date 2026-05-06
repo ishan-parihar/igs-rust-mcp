@@ -1,0 +1,181 @@
+countries:
+  - code: IN
+    name: India
+    continent: Asia
+    cities: [Delhi, Mumbai, Bengaluru, Chennai, Hyderabad, Kolkata, Pune, Ahmedabad, Lucknow, Chandigarh, Coimbatore, Kochi, Kozhikode, Madurai, Mangaluru, Puducherry, Thiruvananthapuram, Tiruchirapalli, Vijayawada, Visakhapatnam]
+  - code: US
+    name: United States
+    continent: North America
+    cities: [New York, Washington DC, Los Angeles, San Francisco]
+  - code: GB
+    name: United Kingdom
+    continent: Europe
+    cities: [London, Manchester, Edinburgh]
+  - code: FR
+    name: France
+    continent: Europe
+    cities: [Paris, Marseille]
+  - code: DE
+    name: Germany
+    continent: Europe
+    cities: [Berlin, Munich]
+  - code: JP
+    name: Japan
+    continent: Asia
+    cities: [Tokyo, Osaka]
+  - code: ZA
+    name: South Africa
+    continent: Africa
+    cities: [Johannesburg, Cape Town]
+  - code: BR
+    name: Brazil
+    continent: South America
+    cities: [São Paulo, Rio de Janeiro]
+  - code: CA
+    name: Canada
+    continent: North America
+    cities: [Toronto, Montreal]
+  - code: IT
+    name: Italy
+    continent: Europe
+    cities: [Rome, Milan]
+  - code: ES
+    name: Spain
+    continent: Europe
+    cities: [Madrid, Barcelona]
+  - code: NL
+    name: Netherlands
+    continent: Europe
+    cities: [Amsterdam]
+  - code: SE
+    name: Sweden
+    continent: Europe
+    cities: [Stockholm]
+  - code: NO
+    name: Norway
+    continent: Europe
+    cities: [Oslo]
+  - code: DK
+    name: Denmark
+    continent: Europe
+    cities: [Copenhagen]
+  - code: PL
+    name: Poland
+    continent: Europe
+    cities: [Warsaw]
+  - code: UA
+    name: Ukraine
+    continent: Europe
+    cities: [Kyiv]
+  - code: TR
+    name: Turkey
+    continent: Asia
+    cities: [Istanbul]
+  - code: IR
+    name: Iran
+    continent: Asia
+    cities: [Tehran]
+  - code: IL
+    name: Israel
+    continent: Asia
+    cities: [Tel Aviv, Jerusalem]
+  - code: SA
+    name: Saudi Arabia
+    continent: Asia
+    cities: [Riyadh, Jeddah]
+  - code: AE
+    name: United Arab Emirates
+    continent: Asia
+    cities: [Dubai, Abu Dhabi]
+  - code: EG
+    name: Egypt
+    continent: Africa
+    cities: [Cairo]
+  - code: MA
+    name: Morocco
+    continent: Africa
+    cities: [Casablanca]
+  - code: NG
+    name: Nigeria
+    continent: Africa
+    cities: [Lagos, Abuja]
+  - code: KE
+    name: Kenya
+    continent: Africa
+    cities: [Nairobi]
+  - code: ET
+    name: Ethiopia
+    continent: Africa
+    cities: [Addis Ababa]
+  - code: AR
+    name: Argentina
+    continent: South America
+    cities: [Buenos Aires]
+  - code: MX
+    name: Mexico
+    continent: North America
+    cities: [Mexico City]
+  - code: CL
+    name: Chile
+    continent: South America
+    cities: [Santiago]
+  - code: CO
+    name: Colombia
+    continent: South America
+    cities: [Bogota]
+  - code: PE
+    name: Peru
+    continent: South America
+    cities: [Lima]
+  - code: AU
+    name: Australia
+    continent: Oceania
+    cities: [Sydney, Melbourne]
+  - code: NZ
+    name: New Zealand
+    continent: Oceania
+    cities: [Auckland, Wellington]
+  - code: KR
+    name: South Korea
+    continent: Asia
+    cities: [Seoul]
+  - code: TW
+    name: Taiwan
+    continent: Asia
+    cities: [Taipei]
+  - code: SG
+    name: Singapore
+    continent: Asia
+    cities: [Singapore]
+  - code: MY
+    name: Malaysia
+    continent: Asia
+    cities: [Kuala Lumpur]
+  - code: ID
+    name: Indonesia
+    continent: Asia
+    cities: [Jakarta]
+  - code: TH
+    name: Thailand
+    continent: Asia
+    cities: [Bangkok]
+  - code: PH
+    name: Philippines
+    continent: Asia
+    cities: [Manila]
+  - code: VN
+    name: Vietnam
+    continent: Asia
+    cities: [Hanoi]
+  - code: PK
+    name: Pakistan
+    continent: Asia
+    cities: [Karachi, Lahore]
+  - code: BD
+    name: Bangladesh
+    continent: Asia
+    cities: [Dhaka]
+  - code: LK
+    name: Sri Lanka
+    continent: Asia
+    cities: [Colombo]

@@ -10,6 +10,10 @@ Intelligence Gathering System - Rust implementation using [rmcp](https://crates.
 
 IGS MCP monitors intelligence from 223+ curated RSS/HTTP sources across global news, geopolitics, tech, research, and regional topics. Built in Rust for performance and low memory footprint (~14 MB binary, ~5 MB RSS).
 
+## The Problem
+Raw intelligence gathering often hits a "token wall." When monitoring hundreds of global sources, the sheer volume of unstructured data—especially from PDFs and verbose JSON APIs—rapidly exhausts the LLM's context window. Naive text extraction destroys structural hierarchy (like tables and headers), while standard JSON wrappers add significant token overhead without adding semantic value. The challenge was to build a system that could ingest massive, fragmented datasets and deliver them to an AI agent in a format that is both structurally rich and token-minimal.
+
+
 ### Features
 
 | Domain       | Tools                                                                                | What it does                                                                                                                                      |
@@ -114,23 +118,27 @@ Multi-stage Dockerfile: `rust:1.85-slim-bookworm` builder → `debian:bookworm-s
 
 ---
 
-## Key Design Decisions
+## Engineering Highlights
 
-1. **rmcp over raw JSON-RPC** — Uses the official modelcontextprotocol/rust-sdk for type-safe tool definitions via `#[tool]` macros.
-2. **TOON output format** — Custom token-efficient notation reduces AI agent token consumption by 40–60% compared to raw JSON.
-3. **File-based feed cache** — Caches RSS/Atom/JSON feed responses with configurable TTL to avoid redundant HTTP fetches on repeat queries.
-4. **Semaphore-concurrency HTTP** — Limits concurrent outgoing requests via tokio semaphore to avoid overwhelming source servers.
-5. **Offline NLP enrichment** — Extracts topics, entities, and sentiment from fetched content without external API calls using pattern matching and keyword extraction.
+### PDF-to-Markdown Intelligence Pipeline
+Instead of raw text dumping, I implemented a structured pipeline that transforms fragmented PDF data into clean, LLM-optimized Markdown. This preserves the semantic hierarchy of the original document while stripping out layout noise, ensuring the agent receives a coherent narrative rather than a series of disconnected strings.
+
+### TOON: Token-Oriented Object Notation
+To solve the "JSON tax," I integrated **TOON**, a compact alternative to JSON specifically designed for AI consumption. By optimizing for common tokenization patterns, TOON reduces the token footprint of large datasets by 40–60%. This allows the MCP server to return significantly more source data per request without triggering context overflows.
+
+### Low-Footprint Rust Core
+Built using `rmcp` for type-safe tool definitions, the server is optimized for extreme efficiency. With a stripped release binary of ~7MB and an idle RSS of ~5MB, the system provides high-throughput intelligence gathering without competing for system resources on the host machine.
+
 
 ## Size & Performance
 
-| Metric | Value |
-|--------|-------|
-| Binary | ~14 MB (debug), ~7 MB (release-stripped) |
-| RSS (idle) | ~5 MB |
-| Docker image | ~15–20 MB |
-| Sources monitored | 223+ global RSS/HTTP sources |
-| Startup | < 100 ms |
+| Metric            | Value                                    |
+| ----------------- | ---------------------------------------- |
+| Binary            | ~14 MB (debug), ~7 MB (release-stripped) |
+| RSS (idle)        | ~5 MB                                    |
+| Docker image      | ~15–20 MB                                |
+| Sources monitored | 223+ global RSS/HTTP sources             |
+| Startup           | < 100 ms                                 |
 
 ## License
 
